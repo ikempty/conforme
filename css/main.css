@@ -260,35 +260,42 @@ body{
 /* iPhone */
 @media (max-width: 760px){
 
-  /* more top space: search + sticky nav */
-  .home{ padding-top:92px; }
+  /* ① bodyで全体を下げない */
+  .home{ padding-top:0; }
 
-  /* search bar full width */
+  /* ② 検索バーは最上部に固定（高さも固定） */
   .site-search-fixed{
+    position:fixed;
     left:12px;
     right:12px;
-    top:10px;
+    top: calc(env(safe-area-inset-top, 0px) + 4px);
+    z-index:9999;
     justify-content:space-between;
   }
-  .site-search-fixed input{ width:calc(100% - 54px); }
+  .site-search-fixed input{
+    height:36px;
+    padding:8px 10px;
+    width:calc(100% - 52px);
+  }
+  .site-search-fixed button{
+    width:40px;
+    height:36px;
+    border-radius:12px;
+  }
 
+  /* ③ resultLineも検索バー基準に合わせる */
   #resultLine{
     left:12px;
     right:12px;
-    top:56px;
+    top: calc(env(safe-area-inset-top, 0px) + 44px);
     max-width:none;
   }
 
-  /* iOS fallback: fixed backgrounds can be heavy */
-  .home .hero-bg,
-  .home .hero-vignette{
-    position:absolute;
-  }
-
-  /* sidebar becomes sticky top menu */
+  /* ④ “チップナビ（sidebar）” を検索バーの下へ逃がす */
   .sidebar{
     position:sticky;
     top:0;
+    margin-top:64px;  /* ←ここが効く：検索の下に落とす */
     width:auto;
     height:auto;
     z-index:9998;
@@ -306,6 +313,7 @@ body{
     padding-bottom:10px;
     border-bottom:1px solid rgba(255,255,255,0.10);
   }
+
   .nav-item{
     width:auto;
     padding:8px 10px;
@@ -317,9 +325,11 @@ body{
 
   .content{
     margin-left:0;
-    padding:40px 16px 70px;
+    padding:28px 16px 70px;
   }
 }
+
+
 body{
   margin:0;
   font-family: "Hiragino Mincho ProN","Yu Mincho","YuMincho",
