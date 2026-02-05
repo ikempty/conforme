@@ -1,0 +1,400 @@
+/* =========================
+   main.css (index only)
+   - dark luxury home
+   - left sidebar (PC)
+   - top chips menu (mobile)
+   - fixed search (top-right)
+   ========================= */
+
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  font-family:"Georgia","Times New Roman",serif;
+  font-feature-settings:"kern" 1,"liga" 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* index body */
+.home{
+  background:#000;
+  color:#fff;
+  padding-top:72px; /* fixed search space (PC) */
+}
+
+/* subtle grain to kill template-feel */
+.home::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:2;
+  opacity:0.08;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+}
+
+/* background image */
+.home .hero-bg{
+  position:fixed;
+  inset:0;
+  background:url("../images/hero.png") center/cover no-repeat;
+  filter: contrast(0.95) saturate(0.90) brightness(0.92);
+  z-index:0;
+}
+
+/* vignette + depth */
+.home .hero-vignette{
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(900px 520px at 82% 14%, rgba(255,255,255,0.05), rgba(0,0,0,0) 60%),
+    radial-gradient(1200px 700px at 60% 55%, rgba(0,0,0,0.10), rgba(0,0,0,0.78)),
+    linear-gradient(90deg, rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.15) 45%, rgba(0,0,0,0.62) 100%);
+  z-index:1;
+}
+
+/* =========================
+   fixed search (IDs are invariant)
+   ========================= */
+.site-search-fixed{
+  position:fixed;
+  top:14px;
+  right:14px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  z-index:9999;
+}
+.site-search-fixed input{
+  width:280px;
+  padding:10px 12px;
+  border:1px solid rgba(255,255,255,0.18);
+  background:rgba(0,0,0,0.40);
+  color:rgba(255,255,255,0.92);
+  border-radius:12px;
+  font-size:13px;
+  letter-spacing:0.02em;
+  outline:none;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.05),
+    0 10px 30px rgba(0,0,0,0.35);
+}
+.site-search-fixed input:focus{
+  border-color: rgba(255,255,255,0.26);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.08),
+    0 12px 36px rgba(0,0,0,0.45);
+}
+
+/* keep button (ID must exist) but make it minimal */
+.site-search-fixed button{
+  width:40px; height:40px;
+  padding:0;
+  border:1px solid rgba(255,255,255,0.18);
+  background:rgba(0,0,0,0.40);
+  color:rgba(255,255,255,0.88);
+  border-radius:12px;
+  font-size:12px;
+  cursor:pointer;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+.site-search-fixed button:hover{
+  transform: translateY(-1px);
+  background:rgba(255,255,255,0.06);
+}
+.site-search-fixed button:active{ transform: translateY(0); }
+
+/* result line MUST be ID */
+#resultLine{
+  position:fixed;
+  top:58px;
+  right:14px;
+  max-width:380px;
+  font-size:12px;
+  color:rgba(255,255,255,0.78);
+  z-index:9999;
+  letter-spacing:0.04em;
+}
+
+/* =========================
+   left sidebar (PC)
+   ========================= */
+.sidebar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:260px;
+  height:100vh;
+  padding:18px 16px;
+  background:rgba(0,0,0,0.78);
+  border-right:1px solid rgba(255,255,255,0.08);
+  box-shadow: inset -1px 0 0 rgba(255,255,255,0.04);
+  z-index:5;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 8px 12px;
+  border-bottom:1px solid rgba(255,255,255,0.10);
+}
+.logo-mark{
+  width:44px;
+  height:44px;
+  border:1px solid rgba(255,255,255,0.18);
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  letter-spacing:0.08em;
+}
+.logo-name{ font-size:14px; letter-spacing:0.22em; }
+.logo-sub{ font-size:11px; color:rgba(255,255,255,0.65); margin-top:4px; }
+
+.side-nav{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin-top:4px;
+}
+.nav-item{
+  width:100%;
+  text-align:left;
+  padding:10px 10px;
+  border:1px solid rgba(255,255,255,0.10);
+  background:rgba(0,0,0,0.40);
+  color:rgba(255,255,255,0.86);
+  letter-spacing:0.08em;
+  font-size:12px;
+  border-radius:10px;
+  cursor:pointer;
+}
+.nav-item:hover{ background:rgba(255,255,255,0.08); }
+.nav-item.active{
+  background:rgba(255,255,255,0.06);
+  border-color:rgba(255,255,255,0.18);
+}
+
+.sidebar-footer{
+  margin-top:auto;
+  padding-top:12px;
+  border-top:1px solid rgba(255,255,255,0.10);
+}
+.contact-mini{ font-size:12px; color:rgba(255,255,255,0.70); }
+.contact-mini .phone{
+  margin-top:6px;
+  font-size:14px;
+  color:rgba(255,255,255,0.90);
+  letter-spacing:0.06em;
+}
+
+/* =========================
+   right content (PC)
+   ========================= */
+.content{
+  position:relative;
+  z-index:4;
+  margin-left:260px;
+  padding:120px 64px 80px;
+  max-width:1100px;
+}
+
+.panel{
+  display:none;
+  opacity:0;
+  transform: translateY(2px);
+}
+.panel.active{
+  display:block;
+  opacity:1;
+  transform: translateY(0);
+  transition: opacity 140ms ease, transform 140ms ease;
+}
+
+.title{
+  margin:0 0 14px;
+  font-weight:400;
+  letter-spacing:0.10em;
+}
+.lead{
+  margin:0 0 18px;
+  color:rgba(255,255,255,0.75);
+  line-height:1.9;
+  max-width:680px;
+}
+
+.card{
+  border:1px solid rgba(255,255,255,0.12);
+  background:rgba(0,0,0,0.32);
+  padding:16px 16px;
+  border-radius:16px;
+  margin-top:18px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+.card-title{
+  margin:0;
+  font-size:12px;
+  letter-spacing:0.12em;
+  color:rgba(255,255,255,0.70);
+}
+.card-text{
+  margin:12px 0 0;
+  color:rgba(255,255,255,0.80);
+  line-height:1.95;
+}
+.muted{ color:rgba(255,255,255,0.60); }
+
+/* =========================
+   responsive
+   ========================= */
+@media (max-width: 980px){
+  .sidebar{ width:220px; }
+  .content{ margin-left:220px; padding:110px 24px 70px; }
+}
+
+/* iPhone */
+@media (max-width: 760px){
+
+  /* more top space: search + sticky nav */
+  .home{ padding-top:92px; }
+
+  /* search bar full width */
+  .site-search-fixed{
+    left:12px;
+    right:12px;
+    top:10px;
+    justify-content:space-between;
+  }
+  .site-search-fixed input{ width:calc(100% - 54px); }
+
+  #resultLine{
+    left:12px;
+    right:12px;
+    top:56px;
+    max-width:none;
+  }
+
+  /* iOS fallback: fixed backgrounds can be heavy */
+  .home .hero-bg,
+  .home .hero-vignette{
+    position:absolute;
+  }
+
+  /* sidebar becomes sticky top menu */
+  .sidebar{
+    position:sticky;
+    top:0;
+    width:auto;
+    height:auto;
+    z-index:9998;
+    background:rgba(0,0,0,0.86);
+    padding:12px;
+    border-right:none;
+    box-shadow:none;
+  }
+
+  .side-nav{
+    flex-direction:row;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:10px;
+    padding-bottom:10px;
+    border-bottom:1px solid rgba(255,255,255,0.10);
+  }
+  .nav-item{
+    width:auto;
+    padding:8px 10px;
+    font-size:11px;
+    border-radius:999px;
+  }
+
+  .sidebar-footer{ display:none; }
+
+  .content{
+    margin-left:0;
+    padding:40px 16px 70px;
+  }
+}
+body{
+  margin:0;
+  font-family: "Hiragino Mincho ProN","Yu Mincho","YuMincho",
+               "Hiragino Kaku Gothic ProN","Noto Sans JP",
+               "Georgia","Times New Roman",serif;
+  font-feature-settings:"kern" 1,"liga" 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ===== Chef ===== */
+
+
+.chef-grid{
+  max-width: 980px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 34% 1fr; /* ← 文字幅を増やす */
+  gap: 28px;
+  align-items: start;
+}
+
+.chef-image{ position: relative; }
+.chef-image img{
+  width:100%;
+  display:block;
+  opacity:0.92;
+  filter: brightness(0.82) saturate(0.85) blur(0.4px);
+}
+.chef-image::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(to right, rgba(0,0,0,0.55), rgba(0,0,0,0));
+  pointer-events:none;
+}
+
+.chef-body{ min-width:0; }
+
+.chef-block{ margin-bottom: 32px; }
+.chef-label{
+  font-size:12px;
+  letter-spacing:0.18em;
+  opacity:0.55;
+  margin-bottom:10px;
+}
+
+/* ここが肝：禁則の押し出しを緩和して、段落も統一 */
+.chef-text,
+.chef-quote{
+  margin: 0 0 14px 0;
+  line-height: 2.05;
+  letter-spacing: 0.06em;        /* ← 広すぎると押し出される */
+  word-break: normal;            /* keep-allは日本語に効かない＆悪化しがち */
+  overflow-wrap: break-word;     /* どうしても詰まる時だけ逃がす */
+  line-break: strict;            /* 日本語の折り返しルールを安定させる */
+  hanging-punctuation: allow-end;
+}
+
+.chef-quote.core{ margin: 0 0 14px 0; }
+
+.chef-signame{
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.chef-sigsub{
+  letter-spacing: 0.10em;
+  opacity: 0.72;
+}
+
+@media (max-width:760px){
+  .chef-grid{ grid-template-columns: 1fr; gap: 18px; }
+  .chef-image::after{
+    background: linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0));
+  }
+  .chef-block{ margin-bottom: 26px; }
+}

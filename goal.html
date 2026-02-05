@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Complete</title>
+
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/archive.css" />
+
+  <style>
+    :root{
+      --blood:#7f0612;
+    }
+
+    .container h1{ display:none; }
+
+    .container{
+      position:relative;
+      z-index:3;
+      min-height: calc(100vh - 72px);
+      display:flex;
+      justify-content:center;
+      padding-top: 18vh;
+    }
+
+    .goal-wrap{
+      width: min(820px, 92vw);
+      text-align:center;
+      margin: 0 auto;
+    }
+
+    .goal-text{
+      font-size:24px;
+      font-weight:700;
+      letter-spacing:0.12em;
+      line-height:2.65;
+      color:var(--blood);
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      text-shadow:
+        0 0 5px rgba(127,6,18,0.28),
+        0 0 14px rgba(127,6,18,0.18),
+        0 0 34px rgba(0,0,0,0.62),
+        0 12px 54px rgba(0,0,0,0.88);
+      filter: saturate(1.02) contrast(1.06);
+    }
+
+    .line{
+      display:block;
+      white-space:pre;
+      min-height:2.65em;
+      text-align:center;
+    }
+
+    .motion{
+      display:inline-block;
+      transform: translateZ(0);
+      will-change: transform;
+      animation:
+        driftA 6.2s ease-in-out infinite,
+        jitterA 0.92s steps(2,end) infinite;
+    }
+
+    @keyframes driftA{
+      0%{transform:translate(0,0)}
+      20%{transform:translate(0.7px,-0.6px)}
+      40%{transform:translate(-0.6px,0.3px)}
+      60%{transform:translate(0.4px,0.8px)}
+      80%{transform:translate(-0.8px,-0.4px)}
+      100%{transform:translate(0,0)}
+    }
+
+    @keyframes jitterA{
+      0%{transform:translate(0,0)}
+      22%{transform:translate(-0.2px,0.2px)}
+      48%{transform:translate(-0.3px,-0.1px)}
+      74%{transform:translate(-0.15px,0.2px)}
+      100%{transform:translate(0,0)}
+    }
+
+    .caret::after{
+      content:"";
+      display:inline-block;
+      width:9px;
+      height:1em;
+      margin-left:10px;
+      background:rgba(255,255,255,0.12);
+      animation: caretBlink 1.15s steps(2,end) infinite;
+      vertical-align:-2px;
+    }
+
+    @keyframes caretBlink{
+      0%,55%{opacity:0}
+      56%,100%{opacity:1}
+    }
+
+    .grain{
+      pointer-events:none;
+      position:fixed;
+      inset:0;
+      z-index:2;
+      opacity:0.14;
+      mix-blend-mode:overlay;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.72'/%3E%3C/svg%3E");
+    }
+
+    /* Share link */
+    #shareWrap{
+      margin-top:64px;
+      font-size:14px;
+      letter-spacing:0.22em;
+      text-align:center;
+      opacity:0;
+      filter: blur(6px);
+      transform: translateY(12px);
+      transition:
+        opacity 1.6s ease,
+        filter 1.8s ease,
+        transform 1.6s ease;
+    }
+
+    #shareWrap.show{
+      opacity:1;
+      filter: blur(0);
+      transform: translateY(0);
+    }
+
+    #shareWrap a{
+      color: rgba(255,255,255,0.42);
+      text-decoration:none;
+    }
+
+    #shareWrap a:hover{
+      color: rgba(255,255,255,0.65);
+    }
+
+    @media (max-width:760px){
+      .container{ padding-top:14vh; }
+      .goal-text{ font-size:21px; line-height:2.35; }
+      .line{ min-height:2.35em; }
+      .grain{ opacity:0.12; }
+    }
+  </style>
+</head>
+
+<body class="theme-dark theme-archive" data-page="goal">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-vignette" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <main class="container">
+    <div class="goal-wrap">
+      <div id="goalArea" class="goal-text motion" aria-live="polite"></div>
+
+      <p id="shareWrap">
+        <a href="#" id="share-x">Xで共有する</a>
+      </p>
+    </div>
+  </main>
+
+  <script>
+    (function(){
+      const seq = [
+        { text:"登録が完了しました。", charDelay:115, afterDelay:700 },
+        { text:"登録後の取消・解除はできません。", charDelay:140, afterDelay:900 },
+        { text:"あなたは", charDelay:175, afterDelay:850 },
+        { text:"食材候補として選定されました。", charDelay:205, afterDelay:0 }
+      ];
+
+      const mount = document.getElementById("goalArea");
+      if(!mount) return;
+
+      let si=0, ci=0, lineEl;
+
+      function addLine(){
+        lineEl=document.createElement("span");
+        lineEl.className="line caret";
+        mount.appendChild(lineEl);
+      }
+
+      addLine();
+
+      function tick(){
+        const step=seq[si];
+        if(ci < step.text.length){
+          lineEl.textContent += step.text[ci++];
+          setTimeout(tick, step.charDelay);
+          return;
+        }
+        lineEl.classList.remove("caret");
+        si++;
+        if(si >= seq.length){
+          const share=document.getElementById("shareWrap");
+          if(share){
+            setTimeout(()=>share.classList.add("show"), 1200);
+          }
+          return;
+        }
+        ci=0;
+        setTimeout(()=>{ addLine(); tick(); }, step.afterDelay||0);
+      }
+
+      tick();
+    })();
+  </script>
+
+<script>
+  (function(){
+    const a = document.getElementById("share-x");
+    if(!a) return;
+
+    const text =
+      "素材の輪郭が最後まで消えないよう、介入は最小に留めます。\n" +
+      "CONFORME\n" +
+      "#CONFORME_ARG";
+
+    a.href = "https://x.com/intent/post?text=" + encodeURIComponent(text);
+    a.target = "_blank";
+    a.rel = "noopener";
+  })();
+</script>
+
+
+     <footer class="site-footer">
+  このWebサイトの内容はフィクションであり、  実在のお店・人物・団体とは一切関係がありません。
+</footer>
+</body>
+</html>

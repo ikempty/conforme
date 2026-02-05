@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>register</title>
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/archive.css" />
+</head>
+
+<body class="theme-dark theme-archive" data-page="register">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-vignette" aria-hidden="true"></div>
+
+  <div class="brandbar" aria-label="brand">
+    <a href="index.html">
+      <div class="logo">
+        <div class="logo-mark">C</div>
+        <div class="logo-text">
+          <div class="logo-name">CONFORME</div>
+          <div class="logo-sub">French Restaurant</div>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <main class="container">
+    <h1>register</h1>
+    <p class="sub">認証が必要です。</p>
+
+    <!-- 認証（カード1枚に統一。ズレない） -->
+    <div class="card">
+      <p class="card-title">Authentication</p>
+
+      <input id="authInput" class="eerie-input" type="password" autocomplete="off" />
+
+      <button id="authBtn" class="eerie-btn" style="margin-top:12px;">verify</button>
+
+      <div id="authMsg" class="muted" style="margin-top:12px;min-height:18px;"></div>
+    </div>
+
+    <!-- 最終警告（認証成功後に出す） -->
+<div id="finalWarn" class="card" style="display:none;">
+  <p class="card-title">Final</p>
+  <p class="card-text final-warn">
+    登録後は、取消・解除はできません。<br />
+    よろしいですか。
+  </p>
+  <button id="agreeBtn" class="danger-btn" style="margin-top:12px;">
+    agree
+  </button>
+</div>
+
+  </main>
+
+  <script>
+    (function(){
+      const input = document.getElementById("authInput");
+      const btn = document.getElementById("authBtn");
+      const msg = document.getElementById("authMsg");
+      const warn = document.getElementById("finalWarn");
+      const agree = document.getElementById("agreeBtn");
+
+      function norm(s){
+        return (s || "")
+          .replace(/[‐-‒–—−ー－]/g, "-")
+          .replace(/[\u3000\u00A0]/g, " ")
+          .trim()
+          .toLowerCase()
+          .replace(/\s+/g, " ");
+      }
+
+      function verify(){
+        const ok = (norm(input.value) === "terrine de silence");
+        if (!ok){
+          msg.textContent = "";
+          warn.style.display = "none";
+          return;
+        }
+        msg.textContent = "";
+        warn.style.display = "block";
+      }
+
+      btn.addEventListener("click", verify);
+      input.addEventListener("keydown", e => { if (e.key === "Enter") verify(); });
+
+      agree.addEventListener("click", () => {
+        window.location.href = "goal.html";
+      });
+    })();
+  </script>
+     <footer class="site-footer">
+  このWebサイトの内容はフィクションであり、  実在のお店・人物・団体とは一切関係がありません。
+</footer>
+</body>
+</html>

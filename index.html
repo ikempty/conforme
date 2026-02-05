@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CONFORME</title>
+
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/theme.css" />
+</head>
+
+<body data-page="index" class="home">
+
+  <!-- 背景 -->
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-vignette" aria-hidden="true"></div>
+
+  <!-- 初期オーバーレイ：中央Cロゴ -->
+  <div class="center-logo" id="introLogo">
+    <div class="mark">C</div>
+  </div>
+
+  <!-- 右上固定：サイト内検索 -->
+  <div class="site-search-fixed">
+    <input id="siteSearch" type="text" placeholder="Search..." autocomplete="off" />
+    <button id="searchBtn">Search</button>
+    <div id="resultLine" class="resultline"></div>
+  </div>
+
+  <!-- 左サイドバー -->
+  <aside class="sidebar" aria-label="site navigation">
+    <a href="index.html" class="brand-logo" id="brandHome">
+      <div class="mark">C</div>
+      <div class="name">CONFORME</div>
+    </a>
+
+    <nav class="side-nav">
+      <button class="nav-item" data-target="concept">CONCEPT</button>
+      <button class="nav-item" data-target="menu">MENU</button>
+      <button class="nav-item" data-target="chef">CHEF</button>
+      <button class="nav-item" data-target="reservation">RESERVATION</button>
+      <button class="nav-item" data-target="access">ACCESS</button>
+      <button class="nav-item" data-target="information">INFORMATION</button>
+    </nav>
+
+    <div class="sidebar-footer">
+
+    </div>
+  </aside>
+
+  <!-- 右側コンテンツ -->
+  <main class="content">
+
+    <!-- CONCEPT -->
+    <section class="panel" id="panel-concept">
+      <h1 class="title">Concept</h1>
+      <p class="lead">
+        素材の輪郭が最後まで消えないよう、介入は最小に留める
+      </p>
+      <div class="card">
+        <p class="card-title">Philosophy</p>
+        <p class="card-text">
+          
+          季節や産地が持つ輪郭を、料理の中で曖昧にしないことを前提としています。<br />
+          強い演出や説明は、体験の記憶を単純化してしまうため行いません。<br />
+          そのため本店では、過程よりも、残った感覚そのものが体験として成立する構成を採っています。
+        </p>
+      </div>
+    </section>
+
+    <!-- MENU -->
+    <section class="panel" id="panel-menu">
+      <h1 class="title">Menu</h1>
+      <p class="lead">
+        Lunch / Dinner ともにコースのみ。構成は当日の入荷により変わります。
+      </p>
+      <div class="card">
+        <p class="card-title">Course</p>
+        <p class="card-text">
+          Lunch：12:00–（一斉開始）<br />
+          Dinner：18:30–（一斉開始）<br />
+          Pairing：Wine / Non-alcoholic
+        </p>
+      </div>
+    </section>
+
+    <!-- CHEF -->
+<section class="panel chef" id="panel-chef">
+  <h1 class="title">Chef</h1>
+  <div class="chef-grid">
+
+    <!-- 画像：PCは左、SPは上 -->
+    <div class="chef-image">
+      <img src="images/chef.jpg" alt="" />
+    </div>
+
+    <div class="chef-body">
+      <!-- 経歴（＝Profile） -->
+      <div class="chef-block">
+
+        <div class="chef-label">Profile</div>
+        <p class="lead">
+          国内外の名門レストランで修行後に独立。
+        </p>
+          <p class="lead">
+          食材の扱いと記憶の残り方に関心を深める。
+        </p>
+        <p class="lead">
+          音楽や造形表現にも長く関わり、余白や残響をテーマに多くの作品を制作。
+        </p>
+      </div>
+
+      <!-- セリフ（＝Notes） -->
+      <div class="chef-block">
+        <div class="chef-label">Notes</div>
+        <p class="lead">理解されることを目的としていません。</p>
+        <p class="lead">説明や意味づけは、体験そのものを置き換えてしまうからです。</p>
+        <p class="lead">残った感覚だけが結果として扱われます。。</p>
+        <p class="lead">そのためにも食材の仕込みが特に大事です。</p>
+      </div>
+
+      <!-- Signature（固定） -->
+      <div class="chef-block">
+        <div class="chef-label">Signature</div>
+        <div class="lead">『Terrine de Silence』  余韻を残し、痕跡は残さない。</div>
+       
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+    <!-- RESERVATION -->
+    <section class="panel" id="panel-reservation">
+      <h1 class="title">Reservation</h1>
+      <p class="lead">
+        ご予約は原則として紹介制です。
+      </p>
+      <div class="card">
+        <p class="card-title">Notes</p>
+        <p class="card-text">
+          ・一斉開始（遅刻時は一部構成が変わる場合があります）<br />
+          ・アレルギーは事前申告をお願いします<br />
+          ・当日キャンセルはコース料金を申し受けます
+        </p>
+      </div>
+    </section>
+
+    <!-- ACCESS -->
+    <section class="panel" id="panel-access">
+      <h1 class="title">Access</h1>
+      <p class="lead">
+        都内某所（詳細はご予約確定後にご案内します）<br />
+        
+        
+      </p>
+    </section>
+
+    <!-- INFORMATION -->
+    <section class="panel" id="panel-information">
+      <h1 class="title">Information</h1>
+            <p class="lead">
+        CLOSE
+      </p>
+      <div class="card">
+        <p class="card-title">Notice</p>
+        <p class="card-text">
+          <span class="muted">※ 一部の記録（過去の体験）は現在公開しておりません。</span>
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- パネル制御 + 初期C解除 -->
+  <script>
+    (function(){
+      const items = Array.from(document.querySelectorAll(".nav-item"));
+      const panels = Array.from(document.querySelectorAll(".panel"));
+      const intro = document.getElementById("introLogo");
+
+      function activate(key){
+        if(intro) intro.style.display = "none";
+        items.forEach(b => b.classList.toggle("active", b.dataset.target === key));
+        panels.forEach(p => p.classList.toggle("active", p.id === "panel-" + key));
+      }
+
+      items.forEach(b => b.addEventListener("click", () => activate(b.dataset.target)));
+
+      // 検索操作でも解除
+      const input = document.getElementById("siteSearch");
+      if(input){
+        input.addEventListener("focus", () => {
+          if(intro) intro.style.display = "none";
+        });
+      }
+    })();
+  </script>
+
+  <!-- 検索ロジック -->
+  <script src="js/search.js"></script>
+
+  <footer class="site-footer">
+  このWebサイトの内容はフィクションであり、  実在のお店・人物・団体とは一切関係がありません。
+</footer>
+</body>
+</html>
+

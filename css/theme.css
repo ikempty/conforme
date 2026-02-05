@@ -1,0 +1,752 @@
+:root{
+  --text: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.64);
+  --line: rgba(255,255,255,0.12);
+  --line2: rgba(255,255,255,0.06);
+
+  --panel-1: rgba(0,0,0,0.42); /* 外側 */
+  --panel-2: rgba(0,0,0,0.18); /* 内側 */
+  --danger: rgba(255,255,255,0.78); /* 赤やめる */
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --serif: "Georgia","Times New Roman",serif;
+}
+
+/* ===== base ===== */
+.theme-dark{
+  background:#000;
+  color:var(--text);
+  min-height:100vh;
+  padding-top:72px; /* 検索バー分 */
+  font-family: var(--serif);
+  font-feature-settings: "kern" 1, "liga" 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* 背景（表と裏で画像を切替） */
+.theme-dark .hero-bg{
+  position:fixed;
+  inset:0;
+  background:url("../images/hero.png") center/cover no-repeat;
+  filter: contrast(0.95) saturate(0.88) brightness(0.92);
+  z-index:0;
+}
+.theme-archive .hero-bg{
+  background-image:url("../images/hero-archive.png");
+  filter: contrast(0.88) saturate(0.55) brightness(0.72);
+}
+
+/* 光源：右上からの薄いハイライト */
+.theme-dark .hero-vignette{
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(900px 520px at 82% 14%, rgba(255,255,255,0.06), rgba(0,0,0,0) 60%),
+    radial-gradient(1200px 700px at 60% 55%, rgba(0,0,0,0.10), rgba(0,0,0,0.82)),
+    linear-gradient(90deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.18) 45%, rgba(0,0,0,0.68) 100%);
+  z-index:1;
+}
+.theme-archive .hero-vignette{
+  background:
+    radial-gradient(720px 520px at 82% 14%, rgba(255,255,255,0.03), rgba(0,0,0,0) 58%),
+    radial-gradient(980px 650px at 60% 55%, rgba(0,0,0,0.30), rgba(0,0,0,0.92)),
+    linear-gradient(90deg, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.32) 45%, rgba(0,0,0,0.88) 100%);
+}
+
+/* ノイズ：テンプレ感を殺す（軽量） */
+.theme-dark::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:2;
+  opacity:0.08;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+}
+.theme-archive::before{ opacity:0.10; }
+
+/* ===== 検索UI（右上固定） ===== */
+.theme-dark .site-search-fixed{
+  position:fixed;
+  top:14px;
+  right:14px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  z-index:9999;
+}
+.theme-dark .site-search-fixed input{
+  width:280px;
+  padding:10px 12px;
+  border:1px solid var(--line2);
+  background:rgba(0,0,0,0.40);
+  color:var(--text);
+  border-radius:12px;
+  font-size:13px;
+  letter-spacing:0.02em;
+  outline:none;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.05),
+    0 10px 30px rgba(0,0,0,0.35);
+}
+.theme-dark .site-search-fixed input:focus{
+  border-color: rgba(255,255,255,0.16);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.08),
+    0 12px 36px rgba(0,0,0,0.45);
+}
+
+/* ボタンは残す（ID不変条件のため）ただし上品に */
+.theme-dark .site-search-fixed button{
+  width:40px; height:40px;
+  padding:0;
+  border:1px solid var(--line2);
+  background:rgba(0,0,0,0.40);
+  color:rgba(255,255,255,0.88);
+  border-radius:12px;
+  font-size:12px;
+  cursor:pointer;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+.theme-dark .site-search-fixed button:hover{
+  transform: translateY(-1px);
+  background:rgba(255,255,255,0.06);
+}
+.theme-dark .site-search-fixed button:active{
+  transform: translateY(0px);
+}
+
+/* resultLine：IDで統一（ここが事故りやすい所） */
+#resultLine{
+  position:fixed;
+  top:58px;
+  right:14px;
+  max-width:380px;
+  font-size:12px;
+  color:var(--danger);
+  z-index:9999;
+  letter-spacing:0.04em;
+  opacity:0.92;
+}
+
+/* ミニヘッダー */
+.site-topbar{
+  position:relative;
+  z-index:3;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  padding:18px 22px 8px;
+}
+
+/* ブランド（裏世界は“参照機器”寄りに） */
+.brand-block{ display:flex; align-items:center; gap:14px; }
+.brand-mark{
+  width:52px; height:52px;
+  border-radius:14px;
+  border:1px solid var(--line2);
+  display:grid; place-items:center;
+  background:rgba(0,0,0,0.44);
+  font-size:18px;
+  letter-spacing:0.06em;
+}
+.theme-archive .brand-mark{
+  border-color: rgba(255,255,255,0.08);
+  background:rgba(0,0,0,0.55);
+}
+.brand-text .name{
+  font-size:18px;
+  letter-spacing:0.18em;
+}
+.brand-text .sub{
+  margin-top:6px;
+  font-size:12px;
+  letter-spacing:0.08em;
+  color:var(--muted);
+}
+
+/* 本文コンテナ */
+.theme-dark .container{
+  position:relative;
+  z-index:3;
+  max-width:900px;
+  margin:0 auto;
+  padding:32px 22px 70px;
+}
+.theme-dark a{ color:rgba(255,255,255,0.90); text-decoration:none; }
+.theme-dark a:hover{ text-decoration:underline; }
+
+/* Mobile */
+@media (max-width: 760px){
+  .theme-dark{ padding-top:92px; }
+
+  .theme-dark .site-search-fixed{
+    left:12px; right:12px; top:10px;
+    justify-content:space-between;
+  }
+  .theme-dark .site-search-fixed input{ width:calc(100% - 54px); }
+  #resultLine{
+    left:12px; right:12px; top:56px;
+    max-width:none;
+  }
+  .theme-dark .container{ padding:26px 14px 60px; }
+}
+/* =========================================
+   Archive Uncanny Text Pass (theme-archive)
+   Paste at END of css/theme.css
+   ========================================= */
+
+/* 1) overall text: slightly dimmer, less “human UI” */
+.theme-dark.theme-archive{
+  color: rgba(255,255,255,0.86);
+}
+
+/* 2) titles: sink into darkness (no glow) */
+.theme-dark.theme-archive h1,
+.theme-dark.theme-archive .card-title{
+  text-shadow: 0 1px 0 rgba(0,0,0,0.38);
+  letter-spacing: 0.09em;
+}
+
+/* 3) body text: reduce clarity a touch */
+.theme-dark.theme-archive .card-text{
+  color: rgba(255,255,255,0.78);
+  line-height: 2.0;
+}
+
+/* 4) “reference / log” tone: mono + degraded */
+.theme-dark.theme-archive .muted,
+.theme-dark.theme-archive .list li{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.62);
+  filter: contrast(0.96) brightness(0.92);
+}
+
+/* 5) secondary text: lower confidence */
+.theme-dark.theme-archive .sub{
+  color: rgba(255,255,255,0.54);
+}
+
+/* 6) last line in list: slight bleed (subtle) */
+.theme-dark.theme-archive .list li:last-child{
+  color: rgba(255,255,255,0.58);
+  text-shadow: 0 0 6px rgba(255,255,255,0.06);
+}
+
+/* 7) search result line: remove “error red”, make it clinical */
+.theme-dark.theme-archive #resultLine{
+  color: rgba(255,255,255,0.72);
+  letter-spacing: 0.12em;
+  text-transform: lowercase;
+  opacity: 0.92;
+}
+
+/* 8) micro flicker: almost unnoticeable */
+.theme-dark.theme-archive h1{
+  animation: archiveFlicker 12s infinite;
+}
+@keyframes archiveFlicker{
+  0%,97%,100%{ opacity:1; }
+  98%{ opacity:0.92; }
+  99%{ opacity:1; }
+}
+
+/* =========================================
+   Glitch Text (archive only)
+   Paste at END of css/theme.css
+   ========================================= */
+
+.theme-dark.theme-archive h1,
+.theme-dark.theme-archive .card-title{
+  position:relative;
+  display:inline-block;
+  /* ベース文字を少し鈍く */
+  color: rgba(255,255,255,0.84);
+  letter-spacing: 0.10em;
+
+  /* RGB分離（静的） */
+  text-shadow:
+    -1.2px 0 rgba(255, 60, 60, 0.70),
+     1.2px 0 rgba( 90,140,255, 0.70),
+     0   0 rgba(0,0,0,0);
+}
+
+/* “たまに”ズレる：やりすぎると安いので弱く・低頻度 */
+.theme-dark.theme-archive h1{
+  animation: glitchJitter 9s infinite;
+  will-change: transform, text-shadow, filter;
+}
+
+@keyframes glitchJitter{
+  0%, 92%, 100%{
+    transform: translate3d(0,0,0);
+    filter: none;
+    text-shadow:
+      -1.2px 0 rgba(255, 60, 60, 0.70),
+       1.2px 0 rgba( 90,140,255, 0.70);
+  }
+  93%{
+    transform: translate3d(-0.6px, 0, 0);
+    filter: contrast(1.05);
+    text-shadow:
+      -2.2px 0 rgba(255, 60, 60, 0.55),
+       2.2px 0 rgba( 90,140,255, 0.55);
+  }
+  94%{
+    transform: translate3d(0.8px, 0, 0);
+    filter: none;
+    text-shadow:
+      -0.8px 0 rgba(255, 60, 60, 0.65),
+       0.8px 0 rgba( 90,140,255, 0.65);
+  }
+  95%{
+    transform: translate3d(0,0,0);
+    text-shadow:
+      -1.2px 0 rgba(255, 60, 60, 0.70),
+       1.2px 0 rgba( 90,140,255, 0.70);
+  }
+}
+
+/* “ログっぽい”英数字（ARC/MNなど）はさらに無機質に */
+.theme-dark.theme-archive .muted,
+.theme-dark.theme-archive .list li{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  letter-spacing: 0.06em;
+}
+/* =========================================
+   Strong Glitch Text (archive only)
+   Bigger offset + stronger red/blue
+   Paste at END of css/theme.css
+   ========================================= */
+
+.theme-dark.theme-archive h1,
+.theme-dark.theme-archive .card-title{
+  position:relative;
+  display:inline-block;
+
+  /* ベースはやや暗め */
+  color: rgba(255,255,255,0.82);
+  letter-spacing: 0.12em;
+
+  /* 強めのRGB分離（常時） */
+  text-shadow:
+    -3.2px 0 rgba(255, 40, 40, 0.85),
+     3.2px 0 rgba( 60,120,255, 0.85),
+     0    0 rgba(0,0,0,0);
+}
+
+/* たまに大きく跳ねる（低頻度・短時間） */
+/* 頻度高めのグリッチ */
+.theme-dark.theme-archive h1{
+  animation: glitchJitterStrong 4.8s infinite;
+  will-change: transform, text-shadow, filter;
+}
+
+@keyframes glitchJitterStrong{
+  /* 通常状態 */
+  0%, 80%, 100%{
+    transform: translate3d(0,0,0);
+    filter: none;
+    text-shadow:
+      -3.2px 0 rgba(255, 40, 40, 0.85),
+       3.2px 0 rgba( 60,120,255, 0.85);
+  }
+
+  /* 小さめの揺れ（ちょいちょい起きる） */
+  82%{
+    transform: translate3d(-1.2px, 0, 0);
+    text-shadow:
+      -4.4px 0 rgba(255, 35, 35, 0.88),
+       4.4px 0 rgba( 50,110,255,0.88);
+  }
+
+  84%{
+    transform: translate3d(1.4px, 0, 0);
+    text-shadow:
+      -3.6px 0 rgba(255, 40, 40, 0.85),
+       3.6px 0 rgba( 60,120,255,0.85);
+  }
+
+  /* 大きめの“発作” */
+  86%{
+    transform: translate3d(-2.4px, 0, 0);
+    filter: contrast(1.2) saturate(1.05);
+    text-shadow:
+      -6.8px 0 rgba(255, 20, 20, 0.95),
+       6.8px 0 rgba( 30,100,255,0.95);
+  }
+
+  88%{
+    transform: translate3d(2.0px, 0, 0);
+    filter: none;
+    text-shadow:
+      -4.0px 0 rgba(255, 40, 40, 0.85),
+       4.0px 0 rgba( 60,120,255,0.85);
+  }
+}
+
+
+/* ARC / MN などのログ文字は“冷たい機械”に */
+.theme-dark.theme-archive .muted,
+.theme-dark.theme-archive .list li{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.60);
+}
+
+/* =========================================
+   Central / Brand Logo Uncanny Drift
+   ========================================= */
+
+/* 左上ロゴ（全ページ共通） */
+.brand-logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  color:inherit;
+}
+
+.brand-logo .mark{
+  width:44px;
+  height:44px;
+  border:1px solid rgba(255,255,255,0.18);
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  letter-spacing:0.08em;
+}
+
+.brand-logo .name{
+  font-size:14px;
+  letter-spacing:0.22em;
+}
+
+/* 中央ロゴ（index初期表示） */
+.center-logo{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:3;
+  pointer-events:none;
+}
+
+.center-logo .mark{
+  width:140px;
+  height:140px;
+  border:1px solid rgba(255,255,255,0.25);
+  border-radius:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:48px;
+  letter-spacing:0.08em;
+  color:rgba(255,255,255,0.65);
+  animation: logoDrift 6s infinite;
+}
+
+@keyframes logoDrift{
+  0%{ transform:translate(0,0); opacity:0.65; }
+  25%{ transform:translate(-1px,0); opacity:0.6; }
+  50%{ transform:translate(1px,1px); opacity:0.68; }
+  75%{ transform:translate(0,-1px); opacity:0.62; }
+  100%{ transform:translate(0,0); opacity:0.65; }
+}
+/* =========================================
+   Archive pages: Top-left brand (NO sidebar lines)
+   ========================================= */
+.brandbar{
+  position:fixed;
+  top:18px;
+  left:18px;
+  z-index:10000;
+
+  /* “サイドバー”にしない：線が出る原因を消す */
+  width:auto;
+  padding:10px 12px;
+
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:14px;
+  background:rgba(0,0,0,0.35);
+  backdrop-filter: blur(6px);
+}
+
+.brandbar a{
+  color:inherit;
+  text-decoration:none;
+  display:block;
+}
+
+/* indexのロゴと同寸・同フォントサイズだけ維持 */
+.brandbar .logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  /* 横線の原因を殺す */
+  border-bottom:none;
+  padding:0;
+}
+
+.brandbar .logo-mark{
+  width:44px;
+  height:44px;
+  border:1px solid rgba(255,255,255,0.18);
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  letter-spacing:0.08em;
+}
+
+.brandbar .logo-name{
+  font-size:14px;
+  letter-spacing:0.22em;
+}
+
+.brandbar .logo-sub{
+  font-size:11px;
+  color:rgba(255,255,255,0.65);
+  margin-top:4px;
+}
+
+@media (max-width: 760px){
+  .brandbar{
+    top:12px;
+    left:12px;
+    padding:10px 12px;
+    background:rgba(0,0,0,0.45);
+  }
+}
+
+/* ===== Typography unify (ALL archive pages) ===== */
+.theme-dark{
+  font-family: "Hiragino Mincho ProN","Yu Mincho","YuMincho",
+               "Hiragino Kaku Gothic ProN","Noto Sans JP",
+               "Georgia","Times New Roman",serif;
+  font-feature-settings:"kern" 1,"liga" 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ===== Eerie blue link/button (history/register) ===== */
+.eerie-link{
+  display:inline-block;
+  color:#62a8ff;
+  letter-spacing:0.14em;
+  text-decoration:none;
+  position:relative;
+  padding:6px 2px;
+  text-shadow:
+    0 0 10px rgba(98,168,255,0.35),
+    0 0 24px rgba(98,168,255,0.18);
+}
+
+/* 色ズレ（赤青）＋揺れ */
+.eerie-link::before,
+.eerie-link::after{
+  content:attr(data-text);
+  position:absolute;
+  left:0; top:0;
+  opacity:0.9;
+  pointer-events:none;
+}
+.eerie-link::before{
+  transform:translate(-2px, 0);
+  color:rgba(255,60,90,0.75);
+  mix-blend-mode:screen;
+  clip-path: inset(0 0 55% 0);
+}
+.eerie-link::after{
+  transform:translate(2px, 0);
+  color:rgba(90,170,255,0.85);
+  mix-blend-mode:screen;
+  clip-path: inset(45% 0 0 0);
+}
+
+@keyframes jitter{
+  0%{ transform:translate(0,0); }
+  20%{ transform:translate(-1px,0); }
+  40%{ transform:translate(2px,1px); }
+  60%{ transform:translate(-2px,-1px); }
+  80%{ transform:translate(1px,0); }
+  100%{ transform:translate(0,0); }
+}
+@keyframes glitchShift{
+  0%{ clip-path: inset(0 0 55% 0); }
+  50%{ clip-path: inset(10% 0 35% 0); }
+  100%{ clip-path: inset(0 0 55% 0); }
+}
+
+.eerie-link{
+  animation: jitter 0.18s steps(2,end) infinite;
+}
+.eerie-link::before{
+  animation: glitchShift 0.6s steps(2,end) infinite;
+}
+.eerie-link::after{
+  animation: glitchShift 0.52s steps(2,end) infinite reverse;
+}
+
+/* registerボタン */
+.eerie-btn{
+  width:100%;
+  padding:11px 14px;
+  border-radius:12px;
+  border:1px solid rgba(98,168,255,0.35);
+  background:rgba(98,168,255,0.10);
+  color:rgba(210,235,255,0.95);
+  cursor:pointer;
+  letter-spacing:0.14em;
+  text-shadow:0 0 18px rgba(98,168,255,0.25);
+}
+.eerie-btn:hover{
+  background:rgba(98,168,255,0.16);
+}
+.eerie-input{
+  width:100%;
+    box-sizing:border-box;   /* ←追加 */
+  display:block;  
+  padding:12px 12px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.18);
+  background:rgba(0,0,0,0.35);
+  color:rgba(255,255,255,0.92);
+  font-size:14px;
+  letter-spacing:0.10em;
+  outline:none;
+}
+.eerie-input:focus{
+  border-color:rgba(98,168,255,0.40);
+  box-shadow:0 0 0 3px rgba(98,168,255,0.10);
+}
+
+/* ===== Copy tone unify (sub / muted / card-text) ===== */
+.theme-dark .sub,
+.theme-dark .muted,
+.theme-dark .card-text,
+.theme-dark li{
+  font-family: inherit;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  line-height: 1.95;
+}
+
+/* 見出しは少しだけ上品に */
+.theme-dark h1{
+  font-family: inherit;
+  letter-spacing: 0.12em;
+}
+
+/* ===== Danger (Final) ===== */
+.danger-btn{
+  width:100%;
+  padding:11px 14px;
+  border-radius:12px;
+  border:1px solid rgba(255,60,90,0.55);
+  background:rgba(255,60,90,0.14);
+  color:rgba(255,235,240,0.98);
+  cursor:pointer;
+  letter-spacing:0.16em;
+  text-transform:lowercase;
+  box-shadow: 0 0 22px rgba(255,60,90,0.10);
+}
+.danger-btn:hover{
+  background:rgba(255,60,90,0.22);
+  border-color:rgba(255,60,90,0.75);
+}
+
+/* Final warning text tone */
+.final-warn{
+  color:rgba(255,220,228,0.92);
+  text-shadow: 0 0 18px rgba(255,60,90,0.12);
+}
+
+/* ===== Typewriter (goal) ===== */
+.typewrap{
+  margin-top:12px;
+  letter-spacing:0.08em;
+  line-height:2.05;
+}
+.type-line{
+  display:block;
+  min-height:1.9em; /* 行がガタつかない */
+  white-space:pre-wrap;
+}
+.type-caret::after{
+  content:"";
+  display:inline-block;
+  width:8px;
+  height:1em;
+  margin-left:6px;
+  background:rgba(255,255,255,0.35);
+  animation: caretBlink 0.9s steps(2,end) infinite;
+  vertical-align:-2px;
+}
+@keyframes caretBlink{
+  0%,45%{ opacity:0; }
+  46%,100%{ opacity:1; }
+}
+
+/* ===== Font unify insurance (goal footnote etc) ===== */
+.theme-dark .muted,
+.theme-dark .sub,
+.theme-dark .card-text,
+.theme-dark .card-title{
+  font-family: inherit;
+}
+
+/* ===== Global Footer (disclaimer) ===== */
+.site-footer{
+  position:fixed;
+  left:0; right:0; bottom:0;
+  padding:12px 14px;
+  font-size:11px;
+  letter-spacing:0.08em;
+  text-align:center;
+  color:rgba(255,255,255,0.40);
+  background:rgba(0,0,0,0.28);
+  backdrop-filter: blur(6px);
+  z-index:8000;
+}
+
+/* ===== Mobile: search should not overlap brandbar ===== */
+@media (max-width: 760px){
+  /* 右上固定検索を“2段目”に落とす */
+  .site-search-fixed{
+    top: calc(env(safe-area-inset-top) + 56px); /* ← brandbarぶん下げる */
+    right: 12px;
+    left: 12px;
+    width: auto;
+  }
+
+  /* 検索が横長になるので、押しやすく */
+  .site-search-fixed input{
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* 中身が検索に食われないように本文も少し下げる */
+  .container{
+    padding-top: calc(14vh + 46px);
+  }
+}
+
+/* ===== Mobile: avoid overlap with brandbar ===== */
+@media (max-width: 760px){
+  .theme-dark .site-search-fixed{
+    top: 82px;            /* brandbarの下に落とす */
+    right: 12px;
+    left: 12px;
+    width: auto;
+  }
+
+  .theme-dark .site-search-fixed input{
+    width: 100%;
+    min-width: 0;
+  }
+}
