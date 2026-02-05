@@ -408,3 +408,7 @@ body{
   }
   .chef-block{ margin-bottom: 26px; }
 }
+
+@media (max-width:760px){
+  .site-search-fixed{ top:0px !important; }
+}
