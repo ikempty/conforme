@@ -58,14 +58,16 @@ body{
    fixed search (IDs are invariant)
    ========================= */
 .site-search-fixed{
-  position:fixed;
-  top:14px;
-  right:14px;
+  position: fixed;
+  top: env(safe-area-inset-top, 10px);
+  left: 12px;
+  right: 12px;
   display:flex;
   gap:10px;
   align-items:center;
   z-index:9999;
 }
+
 .site-search-fixed input{
   width:280px;
   padding:10px 12px;
@@ -412,3 +414,10 @@ body{
 @media (max-width:760px){
   .site-search-fixed{ top:0px !important; }
 }
+
+/* ===== fix iOS Safari fixed bug (archive pages) ===== */
+.fixed-root{
+  position: relative;
+  min-height: 100vh;
+}
+
