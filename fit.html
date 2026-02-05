@@ -3,17 +3,22 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Archive</title>
+  <title>Fit｜Reference</title>
+
+  <!-- フォントは main.css に統一。theme.css は裏世界の配色/背景だけ -->
+  <link rel="stylesheet" href="css/main.css" />
   <link rel="stylesheet" href="css/theme.css" />
   <link rel="stylesheet" href="css/archive.css" />
 </head>
 
-<body class="theme-dark theme-archive" data-page="archive">
-  <div class="hero-bg"></div>
-  <div class="hero-vignette"></div>
+<body class="theme-dark theme-archive" data-page="fit">
 
-  <!-- 左上ロゴ -->
- <div class="brandbar" aria-label="brand">
+  <!-- 背景 -->
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-vignette" aria-hidden="true"></div>
+
+  <!-- 左上ロゴ（トップへ戻る） -->
+<div class="brandbar" aria-label="brand">
   <a href="index.html">
     <div class="logo">
       <div class="logo-mark">C</div>
@@ -25,28 +30,71 @@
   </a>
 </div>
 
+  <!-- 右上検索 -->
   <div class="site-search-fixed">
-    <input id="siteSearch" type="text" />
+    <input id="siteSearch" type="text" autocomplete="off" />
     <button id="searchBtn">Search</button>
-    <div id="resultLine"></div>
+    <div id="resultLine" class="resultline"></div>
   </div>
 
   <main class="container">
-    <h1>Past Records</h1>
+    <h1>Fit｜Reference</h1>
+    <p class="sub">
+      本ページは適合情報の参照用です。公開を前提としていません。
+    </p>
 
-    <ul class="list archive-list">
-      <li class="arc muted">ARC-2509-05-NO-018</li>
-      <li class="arc clickable"><a href="menu-02.html">ARC-2601-05-VE-019</a></li>
-      <li class="arc muted">ARC-2403-04-SI-006</li>
-      <li class="arc muted">ARC-2401-05-SI-001</li>
-      <li class="arc clickable"><a href="menu-03.html">ARC-2509-05-NO-042</a></li>
-      <li class="arc muted">ARC-2512-05-NO-031</li>
-      <li class="arc clickable primary"><a href="menu-01.html">ARC-2601-04-SI-113</a></li>
-    </ul>
+    <div class="card">
+      <p class="card-title">Subject</p>
+      <p class="card-text">
+        ID：K.H.<br />
+        区分：基準一致<br />
+        状態：照合済
+      </p>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Physical</p>
+      <ul class="list" style="margin-top:12px;">
+        <li>身長：17█ cm</li>
+        <li>体重：6█ kg</li>
+        <li>体温：3█.█ ℃</li>
+        <li>脈拍：██ bpm（安静時）</li>
+        <li>血圧：███ / ██ mmHg</li>
+        <li>SpO₂：9█ %</li>
+      </ul>
+      <p class="sub">
+        ※一部値は記録形式上、表示できません。
+      </p>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Condition</p>
+      <ul class="list" style="margin-top:12px;">
+        <li>皮膚：異常なし（表層のみ）</li>
+        <li>筋：疲労残存（軽度）</li>
+        <li>睡眠：██時間（直近）</li>
+        <li>摂取：制限あり（詳細██）</li>
+        <li>既往：申告なし（確認不能）</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Compatibility</p>
+      <p class="card-text">
+        評価：PASS<br />
+        備考：一致しない記録は表示されません
+      </p>
+      <p class="sub">
+          ※ 判定ロジックは公開されていません。<br>
+          ※ 登録経緯は現在非公開です。
+      </p>
+    </div>
+
+  
   </main>
 
   <script src="js/search.js"></script>
-    <footer class="site-footer">
+     <footer class="site-footer">
   このWebサイトの内容はフィクションであり、  実在のお店・人物・団体とは一切関係がありません。
 </footer>
 </body>
